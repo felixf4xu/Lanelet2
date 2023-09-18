@@ -9,6 +9,14 @@
 
 namespace lanelet {
 using ErrorMessages = std::vector<std::string>;
+
+namespace io_handlers {
+/*
+ * Intilize the reader and writers
+ */
+void init();
+}  // namespace io_handlers
+
 /**
  * @brief Loads a lanelet map from a file.
  * @param filename name to load from. The extension decides how the file will be parsed.

@@ -107,6 +107,8 @@ TEST(OsmHandler, writeMapWithIncompleteLanelet) {  // NOLINT
 }
 
 TEST(OsmHandler, writeMapWithLaneletAndAreaToFile) {  // NOLINT
+  lanelet::io_handlers::init();
+
   auto map = std::make_unique<lanelet::LaneletMap>();
   auto num = 1;
   auto ar = test_setup::setUpArea(num);

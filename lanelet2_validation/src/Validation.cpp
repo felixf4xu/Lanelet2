@@ -7,9 +7,28 @@
 #include <lanelet2_traffic_rules/TrafficRulesFactory.h>
 
 #include "lanelet2_validation/ValidatorFactory.h"
+#include "lanelet2_validation/validators/mapping/BoolTags.h"
+#include "lanelet2_validation/validators/mapping/UnknownTags.h"
+#include "lanelet2_validation/validators/mapping/UnknownTagValue.h"
+#include "lanelet2_validation/validators/mapping/MandatoryTags.h"
+#include "lanelet2_validation/validators/mapping/CurvatureTooBig.h"
+#include "lanelet2_validation/validators/mapping/DuplicatedPoints.h"
+#include "lanelet2_validation/validators/mapping/PointsTooClose.h"
+
 
 namespace lanelet {
 namespace validation {
+
+void init(){
+  static RegisterMapValidator<BoolTags> regBool;
+  static RegisterMapValidator<UnknownTags> regUnknown;
+  static RegisterMapValidator<UnknownTagValue> regUnknownValue;
+  static RegisterMapValidator<MandatoryTags> regMandatoryTags;
+  static RegisterMapValidator<CurvatureTooBigChecker> regCurvatureTooBig;
+  static RegisterMapValidator<DuplicatedPointsChecker> regDuplicatedPoints;
+  static RegisterMapValidator<PointsTooCloseChecker> regPointsTooClose;
+}
+
 namespace {
 Regexes parseFilterString(const std::string& str) {
   Regexes regexes;
@@ -124,6 +143,7 @@ std::vector<DetectedIssues> validateMap(LaneletMap& map, const ValidationConfig&
   runMapValidators(issues, regexes, map);
 
   auto trafficRules = utils::transform(config.participants, [&config](auto& participant) {
+    traffic_rules::init();
     return traffic_rules::TrafficRulesFactory::create(config.location, participant);
   });
 
@@ -140,6 +160,7 @@ std::vector<DetectedIssues> validateMap(const std::string& mapFilename, const Va
   LaneletMapPtr map;
   try {
     Strings errors;
+    lanelet::io_handlers::init();
     map = lanelet::load(mapFilename, projector, &errors);
     if (!errors.empty()) {
       issues.emplace_back("general",

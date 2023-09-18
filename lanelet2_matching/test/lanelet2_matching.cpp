@@ -241,6 +241,7 @@ TEST_F(MatchingBase, filterNonCompliantProbabilistic) {  // NOLINT
   EXPECT_EQ(4ul, matches.size());
   EXPECT_EQ("22 21inv 21 22inv ", toString(matches));
 
+  lanelet::traffic_rules::init();
   lanelet::traffic_rules::TrafficRulesPtr trafficRulesPtr =
       lanelet::traffic_rules::TrafficRulesFactory::create(lanelet::Locations::Germany, lanelet::Participants::Vehicle);
   auto compliantMatches = removeNonRuleCompliantMatches(matches, trafficRulesPtr);
@@ -253,6 +254,7 @@ TEST_F(MatchingBase, filterNonCompliantDeterminstic) {  // NOLINT
   auto matches = getDeterministicMatches(*map, obj, 4.);
   EXPECT_EQ(4ul, matches.size());
 
+  lanelet::traffic_rules::init();
   lanelet::traffic_rules::TrafficRulesPtr trafficRulesPtr =
       lanelet::traffic_rules::TrafficRulesFactory::create(lanelet::Locations::Germany, lanelet::Participants::Vehicle);
   auto compliantMatches = removeNonRuleCompliantMatches(matches, trafficRulesPtr);

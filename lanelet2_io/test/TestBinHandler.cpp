@@ -98,6 +98,8 @@ TEST_F(SerializeTest, LaneletMap) {  // NOLINT
 }
 
 TEST(BinHandler, extension) {  // NOLINT
+  lanelet::io_handlers::init();
+
   lanelet::test_setup::Tempfile t("file.bin");
   auto map = std::make_shared<lanelet::LaneletMap>();
   lanelet::write(t.get().string(), *map);

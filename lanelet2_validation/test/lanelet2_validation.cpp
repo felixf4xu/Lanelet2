@@ -8,8 +8,9 @@
 #include "lanelet2_validation/Cli.h"
 #include "lanelet2_validation/Validation.h"
 
-TEST(TestAllValidators, onExampleMap) {  // NOLINT
-  const char* args[] = {"validator",      "../../lanelet2_maps/res/mapping_example.osm",
+TEST(TestAllValidators, onExampleMap) {  // NOLINT  
+  std::string osmPath = std::string(PKG_DIR) + "/../lanelet2_maps/res/mapping_example.osm";
+  const char* args[] = {"validator",      osmPath.c_str(),
                         "--participants", "vehicle",
                         "--participants", "pedestrian",
                         "--lat",          "49",
@@ -25,6 +26,8 @@ TEST(Validator, pointsTooClose) {  // NOLINT
   auto map = lanelet::utils::createMap(lanelet::Points3d{p1, p2});
   lanelet::validation::ValidationConfig config;
   config.checksFilter = "mapping.points_too_close";
+
+  lanelet::validation::init();
   auto issues = lanelet::validation::validateMap(*map, config);
   auto report = lanelet::validation::buildReport(issues);
   EXPECT_LT(0ul, report.warnings.size());
@@ -32,7 +35,7 @@ TEST(Validator, pointsTooClose) {  // NOLINT
 }
 
 TEST(Validator, curvatureTooBig) {  // NOLINT
-  std::string exampleMapPath = "../../lanelet2_maps/res/mapping_example.osm";
+  std::string exampleMapPath = std::string(PKG_DIR) + "/../lanelet2_maps/res/mapping_example.osm";
   using namespace lanelet;
   projection::UtmProjector projector(Origin({49, 8.4}));
   LaneletMapPtr map = load(exampleMapPath, projector);

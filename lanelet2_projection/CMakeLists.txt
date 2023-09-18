@@ -2,6 +2,8 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(lanelet2_projection)
 
+add_compile_definitions(_USE_MATH_DEFINES)
+
 ###################
 ## Find packages ##
 ###################

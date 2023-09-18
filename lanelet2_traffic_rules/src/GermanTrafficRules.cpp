@@ -12,11 +12,13 @@ using namespace std::string_literals;
 namespace lanelet {
 namespace traffic_rules {
 
-namespace {
-RegisterTrafficRules<GermanVehicle> gvRules(Locations::Germany, Participants::Vehicle);
-RegisterTrafficRules<GermanPedestrian> gpRules(Locations::Germany, Participants::Pedestrian);
-RegisterTrafficRules<GermanBicycle> gbRules(Locations::Germany, Participants::Bicycle);
+void init(){
+  static RegisterTrafficRules<GermanVehicle> gvRules(Locations::Germany, Participants::Vehicle);
+  static RegisterTrafficRules<GermanPedestrian> gpRules(Locations::Germany, Participants::Pedestrian);
+  static RegisterTrafficRules<GermanBicycle> gbRules(Locations::Germany, Participants::Bicycle);
+}
 
+namespace {
 Velocity trafficSignToVelocity(const std::string& typeString) {
   using namespace lanelet::units::literals;
   const static std::map<std::string, Velocity> StrToVelocity{

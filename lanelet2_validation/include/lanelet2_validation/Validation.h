@@ -9,6 +9,8 @@ namespace validation {
 
 using Strings = std::vector<std::string>;
 
+void init();
+
 //! Struct for the detected issues that were discovered by a specific check
 struct DetectedIssues {
   DetectedIssues() = default;

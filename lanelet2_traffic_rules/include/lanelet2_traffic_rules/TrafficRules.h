@@ -5,6 +5,8 @@
 namespace lanelet {
 namespace traffic_rules {
 
+void init();
+
 struct SpeedLimitInformation {
   Velocity speedLimit;     //!< The current speed limit (must not be Inf)
   bool isMandatory{true};  //!< False if speed limit is only a recommendation

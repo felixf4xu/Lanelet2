@@ -36,6 +36,9 @@ lanelet::traffic_rules::TrafficRulesPtr germanPedestrianRules() {
 }
 
 class TrafficRules : public ::testing::Test {
+public:
+  TrafficRules(){lanelet::traffic_rules::init();}
+
   /* looks like this:
    * p1----ls4----p8
    *

@@ -2,6 +2,9 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(lanelet2_validation)
 
+add_compile_definitions(_USE_MATH_DEFINES)
+add_compile_definitions(PKG_DIR="${CMAKE_CURRENT_LIST_DIR}")
+
 ###################
 ## Find packages ##
 ###################

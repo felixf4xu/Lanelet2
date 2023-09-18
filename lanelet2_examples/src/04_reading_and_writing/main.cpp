@@ -1,3 +1,5 @@
+#include <boost/filesystem.hpp>
+
 #include <lanelet2_core/primitives/Lanelet.h>
 #include <lanelet2_io/Io.h>
 #include <lanelet2_io/io_handlers/Factory.h>
@@ -15,12 +17,14 @@ namespace {
 std::string exampleMapPath = std::string(PKG_DIR) + "/../lanelet2_maps/res/mapping_example.osm";
 
 std::string tempfile(const std::string& name) {
-  char tmpDir[] = "/tmp/lanelet2_example_XXXXXX";
-  auto* file = mkdtemp(tmpDir);
-  if (file == nullptr) {
-    throw lanelet::IOError("Failed to open a temporary file for writing");
+  boost::filesystem::path tempDir = boost::filesystem::temp_directory_path() / "lanelet2_example_XXXXXX";
+  if (!boost::filesystem::exists(tempDir)) {
+    bool created = boost::filesystem::create_directory(tempDir); //like "/tmp/lanelet2_example_XXXXXX"
+    if (!created) {
+      throw lanelet::IOError("Failed to open a temporary file for writing");
+    }
   }
-  return std::string(file) + '/' + name;
+  return (tempDir / name).string();
 }
 }  // namespace
 

@@ -2,6 +2,8 @@
 cmake_minimum_required(VERSION 3.12)    # for find_package(Python ...)
 project(lanelet2_python)
 
+add_compile_definitions(_USE_MATH_DEFINES)
+
 ###################
 ## Find packages ##
 ###################
@@ -31,6 +33,12 @@ foreach(PROJECT_SOURCE_FILE ${PROJECT_SOURCE_FILES_SRC})
     target_compile_definitions(${SOURCE_NAME} PRIVATE PYTHON_API_MODULE_NAME=${SOURCE_NAME})
     # prevent cmake from creating a "lib" prefix
     set_target_properties(${SOURCE_NAME} PROPERTIES PREFIX "")
+
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+      target_compile_options(${SOURCE_NAME} PRIVATE "/bigobj")    
+      set_target_properties(${SOURCE_NAME} PROPERTIES SUFFIX ".pyd")
+    endif()
+
     target_link_libraries(${SOURCE_NAME}
       ${ament_LIBRARIES}
     )
@@ -49,7 +57,7 @@ foreach(PROJECT_SOURCE_FILE ${PROJECT_SOURCE_FILES_SRC})
         TARGETS ${SOURCE_NAME}
         LIBRARY DESTINATION lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/lanelet2
         ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION bin
+        RUNTIME DESTINATION lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/lanelet2 #windows SHARED lib uses RUNTIME DESTINATION
     )
 endforeach()
 

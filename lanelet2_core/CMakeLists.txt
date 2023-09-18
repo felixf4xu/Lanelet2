@@ -63,6 +63,7 @@ ament_export_dependencies(Boost)
 ## Testing ##
 #############
 if(BUILD_TESTING)
+  add_compile_definitions(_USE_MATH_DEFINES)
   find_package(ament_cmake_gtest REQUIRED)
   file(GLOB TEST_SOURCES "test/*.cpp")
   # Add ament_gtest for your test file

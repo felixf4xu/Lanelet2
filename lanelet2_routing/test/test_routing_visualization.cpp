@@ -14,12 +14,14 @@ namespace fs = boost::filesystem;
 class Tempfile {
  public:
   Tempfile() {
-    char path[] = {"/tmp/lanelet2_unittest.XXXXXX"};
-    auto* res = mkdtemp(path);
-    if (res == nullptr) {
-      throw lanelet::LaneletError("Failed to crate temporary directory");
+    boost::filesystem::path dir = boost::filesystem::temp_directory_path() / "lanelet2_unittest.XXXXXX";
+    if (!boost::filesystem::exists(dir)){
+      bool created = boost::filesystem::create_directory(dir); 
+      if (!created) {
+        throw lanelet::LaneletError("Failed to crate temporary directory");
+      }
     }
-    path_ = path;
+    path_ = dir.string();
   }
   Tempfile(const Tempfile&) = delete;
   Tempfile(Tempfile&&) = delete;

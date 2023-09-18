@@ -4,6 +4,8 @@
 #include "lanelet2_io/Io.h"
 
 TEST(lanelet2_io, registryTest) {  // NOLINT
+  lanelet::io_handlers::init();
+
   auto parseExtensions = lanelet::supportedParserExtensions();
   EXPECT_NE(std::find(parseExtensions.begin(), parseExtensions.end(), ".osm"), parseExtensions.end());
   EXPECT_NE(std::find(parseExtensions.begin(), parseExtensions.end(), ".bin"), parseExtensions.end());

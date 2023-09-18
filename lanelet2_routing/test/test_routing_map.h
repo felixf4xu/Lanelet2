@@ -48,6 +48,8 @@ class RoutingGraphTestData {
     initLineStrings();
     initLanelets();
     initAreas();
+    lanelet::traffic_rules::init();
+
     laneletMap = std::make_shared<LaneletMap>(lanelets, areas, std::unordered_map<Id, RegulatoryElementPtr>(),
                                               std::unordered_map<Id, Polygon3d>(), lines, points);
     vehicleGraph = setUpGermanVehicleGraph(*laneletMap, laneChangeCost);

@@ -2,10 +2,13 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(lanelet2_examples)
 
+add_compile_definitions(_USE_MATH_DEFINES)
+
 ###################
 ## Find packages ##
 ###################
 find_package(ament_cmake REQUIRED)
+find_package(Boost COMPONENTS filesystem)
 
 # You can add a custom.cmake in order to add special handling for this package. E.g. you can do:
 # list(REMOVE_ITEM DEPENDEND_PACKAGES <package name 1> <package name 2> ...)
@@ -37,6 +40,8 @@ foreach(SUBFOLDER IN LISTS SUBFOLDERS)
         target_include_directories(${SUBFOLDER_NAME}  PUBLIC
             "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
             "$<INSTALL_INTERFACE:include>")
+        target_link_libraries(${SUBFOLDER_NAME} PRIVATE 
+            Boost::filesystem)             
         ament_target_dependencies(${SUBFOLDER_NAME} PUBLIC lanelet2_core)  
         ament_target_dependencies(${SUBFOLDER_NAME} PUBLIC lanelet2_io)  
         ament_target_dependencies(${SUBFOLDER_NAME} PUBLIC lanelet2_projection)  

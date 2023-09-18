@@ -4,6 +4,8 @@
 
 #include "lanelet2_io/Exceptions.h"
 #include "lanelet2_io/io_handlers/Factory.h"
+#include "lanelet2_io/io_handlers/OsmHandler.h"
+#include "lanelet2_io/io_handlers/BinHandler.h"
 
 namespace fs = boost::filesystem;
 
@@ -20,6 +22,18 @@ void handleErrorsOrThrow(const ErrorMessages& errors, ErrorMessages* targetErrs)
   }
 }
 }  // namespace
+
+// make sure these variable from this static library are linked in the final executable
+namespace io_handlers {
+void init() {
+  // register with factories
+  static RegisterParser<OsmParser> regOsmParser;
+  static RegisterWriter<OsmWriter> regOsmWriter;
+
+  static RegisterParser<BinParser> regBinParser;
+  static RegisterWriter<BinWriter> regBinWriter;
+}
+}  // namespace io_handler
 
 std::unique_ptr<LaneletMap> load(const std::string& filename, const Origin& origin, ErrorMessages* errors,
                                  const io::Configuration& params) {
