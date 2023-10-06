@@ -14,6 +14,7 @@
 #include "lanelet2_validation/validators/mapping/CurvatureTooBig.h"
 #include "lanelet2_validation/validators/mapping/DuplicatedPoints.h"
 #include "lanelet2_validation/validators/mapping/PointsTooClose.h"
+#include "lanelet2_validation/validators/routing/RoutingGraphIsValid.h"
 
 
 namespace lanelet {
@@ -27,6 +28,8 @@ void init(){
   static RegisterMapValidator<CurvatureTooBigChecker> regCurvatureTooBig;
   static RegisterMapValidator<DuplicatedPointsChecker> regDuplicatedPoints;
   static RegisterMapValidator<PointsTooCloseChecker> regPointsTooClose;
+  //RegisterTrafficRuleValidator
+  static RegisterRoutingGraphValidator<RoutingGraphIsValid> reg;
 }
 
 namespace {

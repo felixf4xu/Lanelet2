@@ -54,7 +54,9 @@ install(
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
 )
+
 ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+ament_export_dependencies(lanelet2_io)
 
 #############
 ## Testing ##
@@ -73,4 +75,4 @@ if(BUILD_TESTING)
   endforeach()
 endif()
 
-ament_package()
+ament_package(CONFIG_EXTRAS "cmake/ConfigExtras.cmake")

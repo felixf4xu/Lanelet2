@@ -2,7 +2,6 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(lanelet2_io)
 
-add_compile_definitions(_USE_MATH_DEFINES)
 
 ###################
 ## Find packages ##
@@ -33,7 +32,8 @@ file(GLOB_RECURSE PROJECT_SOURCE_FILES_SRC
 add_library(${PROJECT_NAME}    
     ${PROJECT_SOURCE_FILES_SRC}
     )
-target_link_libraries(${PROJECT_NAME} PRIVATE 
+target_compile_definitions(${PROJECT_NAME} PUBLIC _USE_MATH_DEFINES)    
+target_link_libraries(${PROJECT_NAME} PUBLIC 
     pugixml
     Boost::serialization
     Boost::filesystem) 
